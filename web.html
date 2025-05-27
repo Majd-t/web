@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="tr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# ve ASP.NET MVC Sınavı</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Roboto', 'Segoe UI', monospace;
+            background: linear-gradient(135deg, #1e1e2e 0%, #3b0764 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e2e8f0;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas#particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(17, 24, 39, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            animation: fadeIn 0.8s ease-in-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            background: linear-gradient(45deg, #6b21a8, #a855f7);
+            color: #ffffff;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '</>';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10em;
+            opacity: 0.1;
+            color: #d8b4fe;
+            z-index: 0;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+            animation: typing 2s steps(20) forwards, cursorBlink 0.5s step-end infinite alternate;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 3px solid #d8b4fe;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes cursorBlink {
+            50% { border-color: transparent; }
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .quiz-container {
+            padding: 40px;
+            text-align: center;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+
+        .question-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 20px;
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            background: rgba(30, 10, 65, 0.8);
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .question-card:hover {
+            border-color: #d8b4fe;
+            background: rgba(30, 10, 65, 1);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .question-card:hover::before {
+            opacity: 1;
+        }
+
+        .question-number {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #d8b4fe;
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            background: rgba(30, 10, 65, 0.8);
+            color: #e2e8f0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            border-color: #d8b4fe;
+            background: rgba(30, 10, 65, 1);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .option:hover::before {
+            opacity: 1;
+        }
+
+        .option.selected {
+            border-color: #d8b4fe;
+            background: rgba(30, 10, 65, 1);
+        }
+
+        .option.correct {
+            background: linear-gradient(45deg, #22C55E, #16A34A);
+            border-color: #22C55E;
+            animation: correctPulse 0.6s ease;
+        }
+
+        .option.incorrect {
+            background: linear-gradient(45deg, #EF4444, #DC2626);
+            border-color: #EF4444;
+            animation: incorrectShake 0.6s ease;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+
+        .option-label {
+            font-weight: bold;
+            margin-right: 15px;
+            color: #d8b4fe;
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 5px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: linear-gradient(45deg, #7e22ce, #d8b4fe);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .next-btn, .prev-btn {
+            background: linear-gradient(45deg, #6b21a8, #a855f7);
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(168, 85, 247, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-btn:hover, .prev-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(168, 85, 247, 0.7);
+            background: linear-gradient(45deg, #5e35b1, #9575cd);
+        }
+
+        .next-btn:disabled, .prev-btn:disabled {
+            background: #4B5563;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.7;
+        }
+
+        .results {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .score-circle {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5em;
+            font-weight: bold;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            animation: rotateIn 1s ease-out;
+        }
+
+        @keyframes rotateIn {
+            from { transform: rotate(-10deg); opacity: 0; }
+            to { transform: rotate(0); opacity: 1; }
+        }
+
+        .score-excellent {
+            background: linear-gradient(45deg, #22C55E, #16A34A);
+        }
+
+        .score-good {
+            background: linear-gradient(45deg, #6b21a8, #a855f7);
+        }
+
+        .score-average {
+            background: linear-gradient(45deg, #F59E0B, #D97706);
+        }
+
+        .score-poor {
+            background: linear-gradient(45deg, #EF4444, #DC2626);
+        }
+
+        .results h2 {
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .results-details {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            color: #d4d4d8;
+        }
+
+        .restart-btn {
+            background: linear-gradient(45deg, #6b21a8, #a855f7);
+            color: #ffffff;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(168, 85, 247, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(168, 85, 247, 0.7);
+            background: linear-gradient(45deg, #5e35b1, #9575cd);
+        }
+
+        .tooltip {
+            visibility: hidden;
+            background: #2e1065;
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 10;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 0.9em;
+            white-space: nowrap;
+        }
+
+        .question-card:hover .tooltip,
+        .option:hover .tooltip,
+        .next-btn:hover .tooltip,
+        .prev-btn:hover .tooltip,
+        .restart-btn:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        body.light-theme {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e9d5ff 100%);
+        }
+
+        body.light-theme .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(107, 33, 168, 0.2);
+        }
+
+        body.light-theme .header {
+            background: linear-gradient(45deg, #7e22ce, #c084fc);
+        }
+
+        body.light-theme .question-text,
+        body.light-theme .results h2,
+        body.light-theme .results-details {
+            color: #4b5563;
+        }
+
+        body.light-theme .question-card,
+        body.light-theme .option {
+            background: rgba(243, 232, 255, 0.8);
+            border-color: rgba(107, 33, 168, 0.3);
+            color: #1f2937;
+        }
+
+        body.light-theme .question-card:hover,
+        body.light-theme .option:hover {
+            background: rgba(243, 232, 255, 1);
+            border-color: #a855f7;
+        }
+
+        body.light-theme .question-number,
+        body.light-theme .option-label {
+            color: #a855f7;
+        }
+
+        body.light-theme .score-circle,
+        body.light-theme .score-good {
+            background: linear-gradient(45deg, #7e22ce, #c084fc);
+            color: #1f2937;
+        }
+
+        body.light-theme .progress-bar {
+            background: linear-gradient(45deg, #a855f7, #d8b4fe);
+        }
+
+        body.light-theme .next-btn,
+        body.light-theme .prev-btn,
+        body.light-theme .restart-btn {
+            background: linear-gradient(45deg, #7e22ce, #c084fc);
+            color: #1f2937;
+        }
+
+        body.light-theme .next-btn:hover,
+        body.light-theme .prev-btn:hover,
+        body.light-theme .restart-btn:hover {
+            background: linear-gradient(45deg, #6b21a8, #a855f7);
+            box-shadow: 0 8px 25px rgba(107, 33, 168, 0.7);
+        }
+
+        body.light-theme .tooltip {
+            background: #7e22ce;
+            color: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 30px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .quiz-container {
+                padding: 20px;
+            }
+
+            .question-text {
+                font-size: 1.1em;
+            }
+
+            .question-card,
+            .option {
+                padding: 15px;
+            }
+
+            .question-number,
+            .option-label {
+                font-size: 1.5em;
+            }
+
+            .next-btn, .prev-btn, .restart-btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+
+            .score-circle {
+                width: 160px;
+                height: 160px;
+                font-size: 2.5em;
+            }
+
+            .results h2 {
+                font-size: 2em;
+            }
+
+            .results-details {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .quiz-container {
+                padding: 15px;
+            }
+
+            .question-card,
+            .option {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .question-number,
+            .option-label {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    <div class="container">
+        <div class="header">
+            <h1>C# ve ASP.NET MVC Sınavı 💻</h1>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <span id="themeIcon">🌙</span>
+            </button>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+        <div id="quizContainer" class="quiz-container">
+            <div class="question-card">
+                <div class="question-number" id="questionNumber">1</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+                <div class="button-container">
+                    <button class="prev-btn" id="prevBtn" onclick="prevQuestion()" disabled>Önceki Soru<span class="tooltip">العودة إلى السؤال السابق</span></button>
+                    <button class="next-btn" id="nextBtn" onclick="nextQuestion()" disabled>Sonraki Soru<span class="tooltip">الانتقال إلى السؤال التالي</span></button>
+                </div>
+            </div>
+        </div>
+        <div id="resultsContainer" class="results hidden">
+            <div class="score-circle" id="scoreCircle">
+                <span id="scorePercentage"></span>
+            </div>
+            <h2 id="resultTitle"></h2>
+            <div class="results-details" id="resultDetails"></div>
+            <button class="restart-btn" onclick="restartQuiz()">Sınavı Yeniden Başlat<span class="tooltip">إعادة بدء الاختبار</span></button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "JSON'da hangi veri tipi kullanılmaz?",
+                options: ["String", "Number", "Boolean", "Function", "Array"],
+                correct: 3
+            },
+            {
+                question: "Aşağıdaki JSON verisinde eksik olan nedir?\n{\n  \"product\": \"Laptop\",\n  \"price\": 1200\n  \"stock\": 30\n}",
+                options: ["Bir çift tırnak eksik", "Bir virgül eksik", "Bir köşeli parantez eksik", "Bir süslü parantez eksik", "Bir iki nokta eksik"],
+                correct: 1
+            },
+            {
+                question: "JSON neyin kısaltmasıdır?",
+                options: ["JavaScript Oriented Notation", "JavaScript Object Notation", "JavaScript Organized Notation", "JavaScript Order Notation", "JavaScript Operational Notation"],
+                correct: 1
+            },
+            {
+                question: "ASP.NET MVC uygulamalarında kullanıcı kimlik doğrulaması için hangi sınıf kullanılır?",
+                options: ["SqlMembershipProvider", "WindowsAuthentication", "FormsAuthentication", "JwtAuthentication", "TokenAuthentication"],
+                correct: 2
+            },
+            {
+                question: "ASP.NET MVC uygulamasında kullanıcı kimlik doğrulamasını kontrol etmek için hangi özellik (attribute) kullanılır?",
+                options: ["[Authorize]", "[Authenticate]", "[ValidateUser]", "[AllowAnonymous]", "[UserAuthentication]"],
+                correct: 0
+            },
+            {
+                question: "ASP.NET MVC’de rol tabanlı yetkilendirme (authorization) uygulamak için hangi yöntem kullanılır?",
+                options: ["[Authorize(Roles = \"Admin,User\")]", "[Authorize(Users = \"Admin,User\")]", "[AllowRoles(\"Admin,User\")]", "[Authorize(Access = \"Admin,User\")]", "[Restrict(Roles = \"Admin,User\")]"],
+                correct: 0
+            },
+            {
+                question: "ASP.NET MVC’de [Authorize] özelliği hangi yöntemlerde kullanılabilir?",
+                options: ["Sadece denetleyici (controller) düzeyinde", "Sadece eylem (action) düzeyinde", "Hem denetleyici hem de eylem düzeyinde", "Sadece model düzeyinde", "Sadece view düzeyinde"],
+                correct: 2
+            },
+            {
+                question: "[Authorize] özelliği olmayan bir denetleyicide, tüm eylemler için varsayılan erişim seviyesi nedir?",
+                options: ["Yalnızca doğrulanmış kullanıcılar erişebilir", "Yalnızca anonim kullanıcılar erişebilir", "Hem anonim hem de doğrulanmış kullanıcılar erişebilir", "Erişim tamamen engellenir", "Yalnızca yöneticiler erişebilir"],
+                correct: 2
+            },
+            {
+                question: "ASP.NET MVC uygulamalarında özel hata sayfaları kullanmak için hangi yapılandırma dosyasında değişiklikle yapılmalıdır؟",
+                options: ["appsettings.json", "web.config", "global.asax", "launchSettings.json", "Startup.cs"],
+                correct: 1
+            },
+            {
+                question: "ASP.NET MVC’de özel bir hata sayfası oluşturmak için “web.config” dosyasında hangi bölümde değişiklik yapılmalıdır?",
+                options: ["< appSettings >", "< system.webServer >", "< connectionStrings >", "< customErrors >", " < runtime >"],
+                correct: 3
+            },
+            {
+                question: "Razor View Engine’de AntiForgeryToken hangi HTML yardımcı yöntemi kullanılarak oluşturulur?",
+                options: ["@Html.AntiForgery()", "@Html.GenerateToken()", "@Html.AntiForgeToken()", "@Html.CsrfToken()", "@Html.GenerateAntiForgery()"],
+                correct: 0
+            },
+            {
+                question: "ValidateAntiForgeryToken özelliği hangi HTTP متoduyla kullanılır?",
+                options: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+                correct: 1
+            },
+            {
+                question: "AntiForgeryToken nedir?",
+                options: ["Form verilerini şifreleyen bir kütüphane", "MVC uygulamalarında güvenliği artırmak için kullanılan bir özellik", "JavaScript kodlarını engelleyen bir yapı", "Veritabanı işlemlerini hızlandırان bir teknik", "MVC’nin yerine geçen bir framework"],
+                correct: 1
+            },
+            {
+                question: "Entitylerden oluşan ancak context sınıfında DbSet’i olmayan sınıflara ne isim verilir?",
+                options: ["EntityDatabase", "ViewSet", "ViewModel", "NavigationProperty", "EntityMode"],
+                correct: 2
+            },
+            {
+                question: "Aşağıdaki Action Filter’lar arasında hangisi, bir Action Method’un sonuçları döndürüldükten sonra çalışır?",
+                options: ["OnActionExecuting", "OnActionExecuted", "OnResultExecuting", "OnResultExecuted", "OnException"],
+                correct: 3
+            },
+            {
+                question: "Action Filter Attribute nedir?",
+                options: ["Bir controller sınıfını temsil eden bir yapı", "Bir Action Method’un belirli bir HTTP isteği için nasıl yanıt vereceğini belirleyen bir yapı", "Bir Action Method’a önceden işlem yapما yeteneği sağlayan bir yapı", "Bir View’i temsil eden bir yapı", "Bir modeli temsil eden bir yapı"],
+                correct: 2
+            },
+            {
+                question: "Lazy Loading’in potansiyel bir dezavantajı nedir?",
+                options: ["Performansı artırır", "İlişkili verilerin aynı anda yüklenmemesi sağlar", "Veritabanı sorgu sayısını artırabilir", "Kod karmaşıklığını azaltır", "İلیşkلی verilerin doğru şekilde yüklenmesini sağlar"],
+                correct: 2
+            },
+            {
+                question: "Eager Loading ile Lazy Loading arasındaki temel fark nedir؟",
+                options: ["Eager Loading tek bir sorgu kullanırken، Lazy Loading birden fazla sorgu kullanır", "Eager Loading ilişkili verileri önceden yüklerken، Lazy Loading sorgu yapıldıktan sonra yükler", "Eager Loading dinamik yükleme yaparken، Lazy Loading önceden yükleme yapar", "Eager Loading performansı artırırken، Lazy Loading performansı azaltır", "Eager Loading ilişkili verileri tek seferde yüklerken، Lazy Loading ilişkili verileri talep edildiğinde yükler"],
+                correct: 1
+            },
+            {
+                question: "Action Filter içindeki filterContext nesnesi ile hangi bilgilere ulaşılabilir؟",
+                options: ["İstek bilgileri", "Yanıت bilgileri", "Controller ve Action bilgileri", "Route verileri", "Tüm yukardakiler"],
+                correct: 4
+            },
+            {
+                question: "ASP.NET MVC uygulamalarında işlemleri birleştirmek ve birden fazla veritabanı işlemini tek bir işlem olarak ele almak için hangi mekanizما kullanılır؟",
+                options: ["SQL Server", "Entity Framework", "Transaction Scope", "ADO.NET", "LINQ"],
+                correct: 2
+            },
+            {
+                question: "DbContextTransaction nedir؟",
+                options: ["Entity Framework’te bir veritabanı işlemini için bir işlem birimi sağlayan sınıf", "ASP.NET MVC’de kullanılan bir controller sınıfı", "View ve model arasında veri iletimini sağlayan bir araç", "Entity Framework’te veritabanı bağlantısını yöneten bir sınıf", ".NET Framework’te kullanılan bir veri türü"],
+                correct: 0
+            },
+            {
+                question: "Bir migration işlemini geri almak için hangi komut kullanılır؟",
+                options: ["Add-Migration", "Update-Database -TargetMigration", "Remove-Migration", "Update-Database -Rollback", "Scaffold-DbContext"],
+                correct: 1
+            },
+            {
+                question: "Manuel migration’da oluşturulan migration dosyasında veritabanı değişikliklerini gerçekleştirmek için hangi metod kullanılır؟",
+                options: ["Seed", "Down", "Configure", "Up", "Initialize"],
+                correct: 3
+            },
+            {
+                question: "Manuel migration oluşturmak için hangi komut kullanılır؟",
+                options: ["Add-Migration", "Update-Database", "Enable-Migrations", "Remove-Migration", "Scaffold-DbContext"],
+                correct: 0
+            },
+            {
+                question: "kuzeyyeli.Kategoriler.Where(x => x.KategoriID < 3 || x.KategoriID > 6) sorgusu ne yapar؟",
+                options: ["Kategori ID 3 ve 6 arasındaki kategorileri döndürür", "Kategori ID 3 ve 6 dışındaki kategorileri döndürür", "Kategori ID 3 ve 6 arasındaki kategorileri veren LINQ sorgusudur", "Kategori ID 3 و 6 dışındaki kategorileri veren LINQ sorgusudur", "Hiçbiri"],
+                correct: 3
+            },
+            {
+                question: "Aşağıdaki sorguda hata nedir؟\n(from k in kuzeyyeli.Kategoriler join u in kuzeyyeli.Urunler on k.KategoriID equals u.KategoriID group u by k.KategoriAdi into grp select new { KategoriIsmi = grp.Key, minimum = grp.Sum(u => u.Fiyat) }).Where(x => x.toplam > 300);",
+                options: ["Hata yoktur، hem LINQ hem metod sorgusudur", "Hata x.toplam kısmında، sadece LINQ sorgusudur", "Hata new () anahtar sözcüğünde", "Hata x.toplam kısmında، hem LINQ hem metod sorgusudur", "Hiçbiri"],
+                correct: 1
+            },
+            {
+                question: "Entity Framework’te özel veri anotasyonları (custom data annotations) nasıl oluşturulur؟",
+                options: ["IValidatebleObject arayüzünü uygulayarak", "Attribute sınıfından türeterek", "ValidationResult sınıfını genişleterek", "DataAnnotation sınıfını devralarak", "CustomValidator sınıfını kullanarak"],
+                correct: 1
+            },
+            {
+                question: "Custom validation attribute’un geçerliliğini kontrol etmek için hangi متود geçersiz kılınmalıdır؟",
+                options: ["IsCorrect", "Validate", "IsValid", "CheckValidity", "IsApproved"],
+                correct: 2
+            },
+            {
+                question: "Entity Framework’te، veritabanına kaydederken istemli sırasında otomatik doğrulamayı devre dışı bırakmak için hangi ayar kullanılmalıdır؟",
+                options: ["DbContext.SaveChanges(false)", "Configuration.ValidateOnSaveEnabled = false;", "Database.ValidationEnabled = false;", "DbContext.Configuration.AutoValidate = false;", "ContextOptions.ValidateOnSave = false;"],
+                correct: 1
+            },
+            {
+                question: "Entity Framework’te bir varlığın belirli bir özelliğinin değiştirilmediğini işaretlemek için hangi ayar kullanılmalıdır؟",
+                options: ["context.Entry(entity).State = EntityState.Unchanged;", "context.Entry(entity).Property(p => p.PropertyName).IsModified = false;", "context.Entry(entity).Property(p => p.PropertyName).CurrentValue = null;", "context.Entry(entity).Property(p => p.PropertyName).IsUnchanged = true;", "context.Entry(entity).Property(p => p.PropertyName).State = PropertyState.Unmodified;"],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+        let answered = false;
+        let answers = Array(questions.length).fill(null);
+        let shuffledOrders = Array(questions.length).fill(null);
+
+        function shuffleOptions(options, correctIndex) {
+            const indexedOptions = options.map((option, index) => ({ option, index }));
+            for (let i = indexedOptions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indexedOptions[i], indexedOptions[j]] = [indexedOptions[j], indexedOptions[i]];
+            }
+            const newCorrectIndex = indexedOptions.findIndex(item => item.index === correctIndex);
+            return {
+                shuffledOptions: indexedOptions.map(item => item.option),
+                newCorrectIndex
+            };
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            let shuffledOptions, newCorrectIndex;
+
+            if (shuffledOrders[currentQuestion] === null || !shuffledOrders[currentQuestion].shuffledOptions) {
+                const shuffleResult = shuffleOptions(question.options, question.correct);
+                shuffledOptions = shuffleResult.shuffledOptions;
+                newCorrectIndex = shuffleResult.newCorrectIndex;
+                shuffledOrders[currentQuestion] = { shuffledOptions, newCorrectIndex };
+            } else {
+                shuffledOptions = shuffledOrders[currentQuestion].shuffledOptions;
+                newCorrectIndex = shuffledOrders[currentQuestion].newCorrectIndex;
+            }
+
+            if (!shuffledOptions || shuffledOptions.length === 0) {
+                console.error(`Error: No options available for question ${currentQuestion + 1}`);
+                return;
+            }
+
+            document.getElementById('questionNumber').textContent = currentQuestion + 1;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            shuffledOptions.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                if (answers[currentQuestion] !== null) {
+                    optionDiv.classList.add('disabled');
+                    if (index === newCorrectIndex) {
+                        optionDiv.classList.add('correct');
+                    } else if (index === answers[currentQuestion] && index !== newCorrectIndex) {
+                        optionDiv.classList.add('incorrect');
+                    }
+                } else {
+                    optionDiv.onclick = () => selectAnswer(index, newCorrectIndex);
+                }
+                if (index === answers[currentQuestion]) {
+                    optionDiv.classList.add('selected');
+                }
+                optionDiv.innerHTML = `
+                    <span class="option-label">${String.fromCharCode(65 + index)}</span>
+                    <span>${option}</span>
+                    <span class="tooltip">اختر هذا الخيار</span>
+                `;
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            updateProgressBar();
+            document.getElementById('nextBtn').disabled = answers[currentQuestion] === null;
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+        }
+
+        function selectAnswer(index, correctIndex) {
+            if (answered || answers[currentQuestion] !== null) return;
+            
+            selectedAnswer = index;
+            answers[currentQuestion] = index;
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[index].classList.add('selected');
+            
+            setTimeout(() => {
+                answered = true;
+                
+                options.forEach((opt, i) => {
+                    opt.classList.add('disabled');
+                    if (i === correctIndex) {
+                        opt.classList.add('correct');
+                    } else if (i === selectedAnswer && i !== correctIndex) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                
+                if (selectedAnswer === correctIndex) {
+                    score++;
+                }
+                
+                document.getElementById('nextBtn').disabled = false;
+            }, 600);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                answered = false;
+                displayQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                answered = answers[currentQuestion] !== null;
+                displayQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = Math.round(((currentQuestion + 1) / questions.length) * 100);
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showResults() {
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            const scoreCircle = document.getElementById('scoreCircle');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultDetails = document.getElementById('resultDetails');
+            
+            document.getElementById('scorePercentage').textContent = percentage + '%';
+            resultDetails.textContent = `${questions.length} sorudan ${score} tanesini doğru cevapladınız`;
+            
+            if (percentage >= 90) {
+                scoreCircle.className = 'score-circle score-excellent';
+                resultTitle.textContent = 'Mükemmel! 🎉';
+            } else if (percentage >= 70) {
+                scoreCircle.className = 'score-circle score-good';
+                resultTitle.textContent = 'Çok İyi!';
+            } else if (percentage >= 40) {
+                scoreCircle.className = 'score-circle score-average';
+                resultTitle.textContent = 'Fena Değil!';
+            } else {
+                scoreCircle.className = 'score-circle score-poor';
+                resultTitle.textContent = 'Geliştirme Gerekli!';
+            }
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answers = Array(questions.length).fill(null);
+            shuffledOrders = Array(questions.length).fill(null);
+            document.getElementById('resultsContainer').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+            answered = false;
+            displayQuestion();
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            const themeIcon = document.getElementById('themeIcon');
+            themeIcon.textContent = document.body.classList.contains('light-theme') ? '🌞' : '🌙';
+        }
+
+        // Particles.js for coding-inspired background
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particlesArray = [];
+        const numberOfParticles = 50;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.2) this.size -= 0.01;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(168, 85, 247, 0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function handleParticles() {
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(168, 85, 247, ${1 - distance / 100})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+                if (particlesArray[i].size <= 0.2) {
+                    particlesArray.splice(i, 1);
+                    i--;
+                    particlesArray.push(new Particle());
+                }
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            handleParticles();
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        displayQuestion();
+    </script>
+</body>
+</html>
