@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Structures and Software Engineering Quiz</title>
+    <title>Software Engineering and Data Structures Essentials Quiz</title>
     <style>
         * {
             margin: 0;
@@ -17,7 +17,7 @@
 
         body {
             font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #111827 0%, #1F2A44 100%);
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
             min-height: 100vh;
             padding: 20px;
             color: #F3F4F6;
@@ -45,7 +45,7 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: rgba(17, 24, 39, 0.95);
+            background: rgba(15, 23, 42, 0.95);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
@@ -55,7 +55,7 @@
         }
 
         .header {
-            background: linear-gradient(45deg, #3B82F6, #34D399);
+            background: linear-gradient(45deg, #1E40AF, #3B82F6);
             color: #ffffff;
             padding: 30px;
             text-align: center;
@@ -97,11 +97,11 @@
 
         .progress-bar {
             height: 8px;
-            background: linear-gradient(45deg, #60A5FA, #34D399);
+            background: linear-gradient(45deg, #3B82F6, #60A5FA);
             border-radius: 5px;
             transition: width 0.5s ease;
             width: 0%;
-            box-shadow: 0 0 15px rgba(96, 165, 250, 0.6);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
             position: relative;
             overflow: hidden;
         }
@@ -129,7 +129,7 @@
         }
 
         .question-card {
-            background: rgba(31, 41, 55, 0.9);
+            background: rgba(30, 41, 59, 0.9);
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 20px;
@@ -146,7 +146,7 @@
         }
 
         .question-number {
-            background: linear-gradient(45deg, #3B82F6, #34D399);
+            background: linear-gradient(45deg, #1E40AF, #3B82F6);
             color: white;
             width: 40px;
             height: 40px;
@@ -179,7 +179,7 @@
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: rgba(55, 65, 81, 0.7);
+            background: rgba(51, 65, 85, 0.7);
             font-size: 1.1em;
             display: flex;
             align-items: center;
@@ -190,7 +190,7 @@
 
         .option:hover, .option:active {
             border-color: #60A5FA;
-            background: rgba(55, 65, 81, 0.9);
+            background: rgba(51, 65, 85, 0.9);
             transform: translateX(-5px);
             box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
         }
@@ -208,15 +208,15 @@
 
         .option.selected {
             border-color: #60A5FA;
-            background: rgba(75, 85, 99, 0.9);
+            background: rgba(71, 85, 105, 0.9);
         }
 
         .option.correct {
-            background: linear-gradient(45deg, #34D399, #10B981);
+            background: linear-gradient(45deg, #60A5FA, #3B82F6);
             color: white;
-            border-color: #34D399;
+            border-color: #60A5FA;
             animation: correctPulse 0.6s ease;
-            box-shadow: 0 0 15px rgba(52, 211, 153, 0.6);
+            box-shadow: 0 0 15px rgba(96, 165, 250, 0.6);
         }
 
         .option.incorrect {
@@ -260,7 +260,7 @@
         }
 
         .next-btn, .prev-btn {
-            background: linear-gradient(45deg, #3B82F6, #34D399);
+            background: linear-gradient(45deg, #1E40AF, #3B82F6);
             color: white;
             border: none;
             padding: 15px 30px;
@@ -269,7 +269,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 5px 15px rgba(30, 64, 175, 0.4);
             position: relative;
             overflow: hidden;
             flex: 1;
@@ -277,8 +277,8 @@
 
         .next-btn:hover, .prev-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
-            background: linear-gradient(45deg, #2563EB, #10B981);
+            box-shadow: 0 8px 25px rgba(30, 64, 175, 0.6);
+            background: linear-gradient(45deg, #1E3A8A, #2563EB);
         }
 
         .next-btn::after, .prev-btn::after {
@@ -346,11 +346,11 @@
         }
 
         .score-excellent {
-            background: linear-gradient(45deg, #34D399, #10B981);
+            background: linear-gradient(45deg, #60A5FA, #3B82F6);
         }
 
         .score-good {
-            background: linear-gradient(45deg, #60A5FA, #3B82F6);
+            background: linear-gradient(45deg, #3B82F6, #1E40AF);
         }
 
         .score-average {
@@ -375,7 +375,7 @@
         }
 
         .restart-btn {
-            background: linear-gradient(45deg, #3B82F6, #34D399);
+            background: linear-gradient(45deg, #1E40AF, #3B82F6);
             color: white;
             border: none;
             padding: 15px 40px;
@@ -384,15 +384,15 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 5px 15px rgba(30, 64, 175, 0.4);
             position: relative;
             overflow: hidden;
         }
 
         .restart-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
-            background: linear-gradient(45deg, #2563EB, #10B981);
+            box-shadow: 0 8px 25px rgba(30, 64, 175, 0.6);
+            background: linear-gradient(45deg, #1E3A8A, #2563EB);
         }
 
         .restart-btn::after {
@@ -529,7 +529,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Data Structures and Software Engineering Quiz 🌐</h1>
+            <h1>Software Engineering and Data Structures Essentials Quiz 🌐</h1>
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
@@ -560,269 +560,149 @@
     <script>
         const questions = [
             {
-                question: "A data structure is an organization framework that enables efficient ______ of data.",
-                options: ["data aggregates", "access and modification", "operations", "tail"],
+                question: "Software engineering concerns the application of …… to the development of software, using rigorous ……",
+                options: ["marketing strategies / financial plans", "coding habits / personal experience", "engineering principles / scientific methods", "software licenses / testing manuals"],
+                correct: 2
+            },
+            {
+                question: "Software products are modified in the event of …… or when the initial …… have been …… during the development process.",
+                options: ["testing stages / modules / completed", "error detection / company specifications / revised", "customer feedback / structures / designed", "integration / budgets / accepted"],
                 correct: 1
             },
             {
-                question: "Each information unit carries the relevant ______, describes the ______ among them, and prescribes the ______ that can be applied to them.",
-                options: ["data values, relationships, operations", "attributes, tuples, subscripts", "matrices, indexes, keys", "tail, head, values"],
+                question: "Traditional fields of engineering are using generic …… so as to construct complex systems, while software engineering is inventing its own ……",
+                options: ["personal methods / simplified modules", "pre-fabricated components / domain-specific components", "online guides / specific instructions", "open-source tools / API commands"],
+                correct: 1
+            },
+            {
+                question: "Whether they are an …… or the …… , the user must be clearly defined.",
+                options: ["group admin / developer", "tester / audience", "individual contractor / mass market", "reviewer / consultant"],
+                correct: 2
+            },
+            {
+                question: "Apart from its …… , the system is expected to …… with potential users.",
+                options: ["safety mode / align", "feedback loop / respond", "functional integrity / ensure interaction", "user interface / meet expectations"],
+                correct: 2
+            },
+            {
+                question: "Documentation provides details about the …… and makes suggestions on its ……",
+                options: ["interface layout / update time", "product operation / proper use", "code errors / debug strategy", "user manual / improvement options"],
+                correct: 1
+            },
+            {
+                question: "Extreme programming advocates …… of code and …… of expanded versions, along with …… with the customer.",
+                options: ["version control / upgrades / conflict resolution", "continuous revisions / frequent releases / consistent communication", "peer reviews / batch deployment / documentation", "simplified syntax / less testing / support requests"],
+                correct: 1
+            },
+            {
+                question: "With modularity, …… are separated and modules are planned to perform ……",
+                options: ["errors / calculations", "concerns / discrete functions", "data types / conditions", "models / maintenance"],
+                correct: 1
+            },
+            {
+                question: "With high intramodule cohesion, module complexity is …… , and the system is more easily ……",
+                options: ["mixed / deleted", "heavy / expanded", "reduced / maintained", "increased / evaluated"],
+                correct: 2
+            },
+            {
+                question: "Monoprogramming is a …… that allows only one program to be in memory at a time.",
+                options: ["list", "attribute", "technique", "medium"],
+                correct: 2
+            },
+            {
+                question: "A magnetic disk is a storage …… with random access capability.",
+                options: ["attribute", "medium", "representation", "list"],
+                correct: 1
+            },
+            {
+                question: "Height is a tree …… indicating the length of the path from the root to the last level.",
+                options: ["attribute", "list", "medium", "technique"],
                 correct: 0
             },
             {
-                question: "The use of data structures as ______ has played a major role in the design of efficient algorithms.",
-                options: ["matrices", "abstract tools", "schemas", "instances"],
-                correct: 1
-            },
-            {
-                question: "The array consists of a ______ collection of values.",
-                options: ["tail", "sequenced", "derived", "matrix"],
-                correct: 1
-            },
-            {
-                question: "Two-dimensional arrays are also called ______.",
-                options: ["stacks", "queues", "matrices", "subschemas"],
+                question: "A histogram is a graphical …… of a frequency distribution.",
+                options: ["list", "technique", "representation", "attribute"],
                 correct: 2
             },
             {
-                question: "The beginning of the list is called the ______, and the other end is called the ______.",
-                options: ["root, leaf", "parent, child", "head, tail", "top, bottom"],
-                correct: 2
-            },
-            {
-                question: "______ an entry from the top of a stack is known as popping an entry.",
-                options: ["Adding", "Removing", "Accessing", "Replacing"],
-                correct: 1
-            },
-            {
-                question: "The immediate ______ are the node’s children, and the immediate ______ is the node’s parent.",
-                options: ["ancestors, siblings", "descendants, ancestor", "siblings, children", "roots, leaves"],
-                correct: 1
-            },
-            {
-                question: "Databases are systems which convert ______ into ______ sources.",
-                options: ["operations, functions", "data aggregates, meaningful information", "access layers, subschemas", "tuples, attributes"],
-                correct: 1
-            },
-            {
-                question: "The table includes ______ (rows), which stand for ______ of a particular entity.",
-                options: ["attributes, schemas", "operations, values", "tuples, instances", "matrices, indexes"],
-                correct: 2
-            },
-            {
-                question: "Which sentence is the best paraphrase of the statement: 'Data structures are organization frameworks that enable efficient access and modification of data'?",
-                options: ["Data can be stored more efficiently with lists and queues.", "The way data is structured can influence how people appreciate information.", "The way data is arranged can affect the way users interact with the relevant information.", "Data is modified when arranged in queues."],
-                correct: 2
-            },
-            {
-                question: "What is the correct paraphrase of: 'Based on the restrictions that we place upon the manner of accessing entries in a list, we can distinguish between stacks and queues'?",
-                options: ["Stacks and queues change how data is inserted into databases.", "Stacks and queues are just different ways of accessing data in a list.", "Accessing data from lists is done randomly in stacks and queues.", "Queues are restricted only to the top of the list."],
-                correct: 1
-            },
-            {
-                question: "Choose the best paraphrase of: 'The ability to store extremely large amounts of data would be useless if users were unable to extract those collections of data that are relevant to their needs.'",
-                options: ["Large amounts of stored data are always helpful.", "Data can become irrelevant if users lose their interest in it.", "Data can be more easily retrieved when it is efficiently stored.", "Storage capacity determines data quality."],
-                correct: 2
-            },
-            {
-                question: "What is a suitable paraphrase of: 'Therefore, not only is it important to share information but also to control access to it'?",
-                options: ["Information should always be shared openly.", "Sharing information can be risky.", "Controlling information can be inaccessible.", "Information control makes systems slower."],
-                correct: 1
-            },
-            {
-                question: "Which sentence paraphrases: 'The application software does not have to be concerned with the details of how the database is stored'?",
-                options: ["The application layer examines whether data is stored on a single machine or across many machines.", "The application software is greatly simplified when it only focuses on accessing the database.", "The DBMS is part of the application layer.", "The application stores the database contents directly."],
-                correct: 1
-            },
-            {
-                question: "What is the best paraphrase of: 'The DBMS is implemented as an abstract tool so that the required result is achieved'?",
-                options: ["The DBMS manipulates the content of a database so as to reach the desired result.", "The DBMS uses physical tools for optimization.", "The DBMS handles only the user interface.", "The DBMS influences the result so that it can accommodate user expectations."],
+                question: "A queue is a linear …… in which data can only be inserted at one end, and deleted from the other end.",
+                options: ["list", "medium", "representation", "technique"],
                 correct: 0
             },
             {
-                question: "What is the synonym of 'circumvent'?",
-                options: ["bypass", "not variable", "develop from", "characteristic"],
-                correct: 0
+                question: "A register is a stand-alone storage location …… data temporarily.",
+                options: ["for the purpose", "that holds", "in which", "based on"],
+                correct: 1
             },
             {
-                question: "What is the synonym of 'inference'?",
-                options: ["suppose", "characteristic", "bypass", "judgment"],
+                question: "Prolog is a high-level programming language …… formal logic.",
+                options: ["in which", "using", "based on", "for the purpose"],
+                correct: 2
+            },
+            {
+                question: "Statistical compression is a compression method …… encoding is based on the frequency of symbols.",
+                options: ["for the purpose", "that holds", "in which", "using"],
+                correct: 2
+            },
+            {
+                question: "Synchronization point is a point introduced into the data by the session layer …… of flow and error control.",
+                options: ["based on", "using", "that holds", "for the purpose"],
                 correct: 3
             },
             {
-                question: "What is the synonym of 'assume'?",
-                options: ["suppose", "define", "work out, conclude", "judgment"],
+                question: "Public key encryption is an encryption method …… two keys: private and public.",
+                options: ["using", "that holds", "based on", "in which"],
                 correct: 0
             },
             {
-                question: "What is the synonym of 'discriminating'?",
-                options: ["changing", "widespread", "work out, conclude", "making a distinction"],
+                question: "A data structure is an organization framework that enables efficient …… of data.",
+                options: ["tuples", "relationships", "abstract tools", "access and modification"],
                 correct: 3
             },
             {
-                question: "What is the synonym of 'anticipate'?",
-                options: ["relevant", "expect", "characteristic", "long search"],
+                question: "Each information unit carries the relevant …… , describes the …… among them, and prescribes the …… that can be applied to them.",
+                options: ["abstract tools, tail, operations", "data values, relationships, operations", "operations, tuples, data aggregates", "head, access and modification, tail"],
                 correct: 1
             },
             {
-                question: "What is the synonym of 'derive'?",
-                options: ["develop from", "repetitive", "define", "bypass"],
-                correct: 0
-            },
-            {
-                question: "What is the synonym of 'determine'?",
-                options: ["define", "changing", "attribute", "bypass"],
-                correct: 0
-            },
-            {
-                question: "What is the synonym of 'prevalent'?",
-                options: ["widespread", "relevant", "changing", "bypass"],
-                correct: 0
-            },
-            {
-                question: "What is the synonym of 'fixed'?",
-                options: ["repetitive", "not variable", "long search", "changing"],
-                correct: 1
-            },
-            {
-                question: "What is the synonym of 'attribute'?",
-                options: ["characteristic", "deduce", "bypass", "define"],
-                correct: 0
-            },
-            {
-                question: "What is the synonym of 'pertinent'?",
-                options: ["relevant", "repetitive", "bypass", "widespread"],
-                correct: 0
-            },
-            {
-                question: "What is the synonym of 'navigate'?",
-                options: ["define", "find way through", "repetitive", "deduce"],
-                correct: 1
-            },
-            {
-                question: "What is the synonym of 'iterative'?",
-                options: ["repetitive", "relevant", "changing", "attribute"],
-                correct: 0
-            },
-            {
-                question: "What is the synonym of 'varying'?",
-                options: ["define", "repetitive", "changing", "widespread"],
+                question: "The use of data structures as …… has played a major role in the design of efficient algorithms.",
+                options: ["relationships", "head", "abstract tools", "instances"],
                 correct: 2
             },
             {
-                question: "What is the synonym of 'quest'?",
-                options: ["long search", "define", "attribute", "deduce"],
+                question: "The array consists of a …… collection of values.",
+                options: ["tail", "meaningful information sources", "removing", "sequenced"],
+                correct: 3
+            },
+            {
+                question: "Two-dimensional arrays are also called ……",
+                options: ["matrices", "tuples", "descendants", "operations"],
                 correct: 0
             },
             {
-                question: "What is the synonym of 'deduce'?",
-                options: ["repetitive", "characteristic", "work out, conclude", "bypass"],
+                question: "The beginning of the list is called the …… , and the other end of the list is called the ……",
+                options: ["relationships, tail", "access and modification, matrices", "head, tail", "ancestor, descendant"],
                 correct: 2
             },
             {
-                question: "What is the definition of 'Training set'?",
-                options: ["A set of observations used to generate machine learning models.", "A machine learning method based on learning data representations.", "The task of grouping entities by similarity.", "Training a model to maximize a reward."],
-                correct: 0
+                question: "…… an entry from the top of a stack is known as popping an entry.",
+                options: ["Accessing", "Removing", "Sequencing", "Sorting"],
+                correct: 1
             },
             {
-                question: "What is the definition of 'Model'?",
-                options: ["A specific representation of a dataset after a certain algorithm has been trained on it.", "A circuit of neurons.", "A class of ML tasks that use unlabeled data.", "A task that predicts continuous output."],
-                correct: 0
+                question: "The immediate …… are the node’s children, and the immediate …… is the node’s parent.",
+                options: ["ancestors, head", "descendants, ancestor", "tuples, operations", "matrices, data aggregates"],
+                correct: 1
             },
             {
-                question: "What is the definition of 'Feature selection'?",
-                options: ["The process of choosing relevant features to build a model.", "A task of clustering data.", "Training by using rewards.", "A labeled dataset."],
-                correct: 0
+                question: "Databases are systems which convert …… into …… sources.",
+                options: ["operations, access and modification", "data values, meaningful information", "tail, head", "matrices, tuples"],
+                correct: 1
             },
             {
-                question: "What is the definition of 'Supervised learning'?",
-                options: ["Training a model using labeled data and input-output pairs.", "Building models with minimal human input.", "Trial and error-based training.", "Searching for features manually."],
-                correct: 0
-            },
-            {
-                question: "What is the definition of 'Classification'?",
-                options: ["Predicting a categorical output.", "Predicting continuous values.", "Assigning weights to features.", "Representing a dataset."],
-                correct: 0
-            },
-            {
-                question: "What is the definition of 'Regression'?",
-                options: ["Predicting continuous values.", "Predicting labels.", "Grouping data.", "Selecting features."],
-                correct: 0
-            },
-            {
-                question: "What is the definition of 'Semi-supervised learning'?",
-                options: ["A mix of labeled and large unlabeled data.", "Using only test data.", "Labeling irrelevant data.", "Fully labeled datasets only."],
-                correct: 0
-            },
-            {
-                question: "What is the definition of 'Unsupervised learning'?",
-                options: ["Detecting patterns without labeled data.", "Grouping data manually.", "Predicting categorical values.", "Training through trials."],
-                correct: 0
-            },
-            {
-                question: "What is the definition of 'Clustering'?",
-                options: ["Grouping entities that share similar traits.", "Defining features manually.", "Modeling output behavior.", "Neural signal mapping."],
-                correct: 0
-            },
-            {
-                question: "What is the definition of 'Neural network'?",
-                options: ["A circuit of neurons.", "A logic-based database.", "A dataset model.", "A feature selector."],
-                correct: 0
-            },
-            {
-                question: "What is the definition of 'Deep learning'?",
-                options: ["A method based on learning data representations.", "Output regression task.", "Token-based input system.", "Simple logical structure."],
-                correct: 0
-            },
-            {
-                question: "What is the definition of 'Reinforcement learning'?",
-                options: ["Training a model to maximize reward via trial and error.", "Output classifier training.", "Labeling techniques in AI.", "Data filtering method."],
-                correct: 0
-            },
-            {
-                question: "Software engineering concerns the application of ______ to the development of software, using rigorous ______.",
-                options: ["engineering principles and scientific methods", "frequent releases and consistent communication", "product operation and proper use", "mass market and revised"],
-                correct: 0
-            },
-            {
-                question: "Software products are modified in the event of ______ or when the initial ______ have been ______ during the development process.",
-                options: ["error detection, company specifications, revised", "functional integrity, discrete functions, maintained", "mass market, concerns, reduced", "product operation, documentation, maintained"],
-                correct: 0
-            },
-            {
-                question: "Whether they are an ______ or the ______, the user must be clearly defined.",
-                options: ["individual contractor, mass market", "error detection, frequent releases", "domain-specific component, revised", "scientific method, engineering principle"],
-                correct: 0
-            },
-            {
-                question: "Which sentence is the correct paraphrase of: 'Large and elaborate systems require many people and long development time'?",
-                options: ["Large systems engage many people and develop over a long time span.", "The more people are involved in large systems, the better the development process becomes."],
-                correct: 0
-            },
-            {
-                question: "What is a correct paraphrase of: 'Software metrics were created to represent properties of software'?",
-                options: ["The invention of software engineering metrics has sprung from the need to accurately represent the properties of software products.", "The technique of measuring software engineering properties has led to some exciting discoveries in the area of software development."],
-                correct: 0
-            },
-            {
-                question: "Monoprogramming is a ______ that allows only one program to be in memory at a time.",
-                options: ["technique", "list", "representation", "attribute"],
-                correct: 0
-            },
-            {
-                question: "A magnetic disk is a storage ______ with random access capability.",
-                options: ["medium", "list", "attribute", "technique"],
-                correct: 0
-            },
-            {
-                question: "A register is a stand-alone storage location ______ data temporarily.",
-                options: ["that holds", "in which", "for the purpose", "using"],
-                correct: 0
-            },
-            {
-                question: "Prolog is a high-level programming language ______ formal logic.",
-                options: ["based on", "that holds", "in which", "for the purpose"],
-                correct: 0
+                question: "The table includes …… (rows), which stand for …… of a particular entity. The table also includes attributes (columns), which display values.",
+                options: ["relationships, ancestor", "tuples, instances", "operations, matrices", "descendants, data aggregates"],
+                correct: 1
             }
         ];
 
