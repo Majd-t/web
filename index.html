@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr" dir="ltr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Programlama Ana Sayfası</title>
+    <title>Quiz Hub - Choose Your Challenge</title>
     <style>
         * {
             margin: 0;
@@ -11,446 +11,274 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'JetBrains Mono', 'Roboto', 'Segoe UI', monospace;
-            background: linear-gradient(135deg, #1e1e2e 0%, #3b0764 100%); /* C#-inspired dark purple */
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #111827 0%, #1F2A44 100%);
             min-height: 100vh;
             padding: 20px;
-            color: #e2e8f0;
+            color: #F3F4F6;
             position: relative;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            overflow-x: hidden;
         }
 
-        /* Coding-inspired background animation */
-        canvas#particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.3;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(17, 24, 39, 0.95); /* Dark semi-transparent */
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(12px);
-            overflow: hidden;
-            border: 1px solid rgba(168, 85, 247, 0.2);
-            animation: fadeIn 0.8s ease-in-out;
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .header {
-            background: linear-gradient(45deg, #6b21a8, #a855f7); /* Purple gradient */
-            color: #ffffff;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '</>';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 10em;
-            opacity: 0.1;
-            color: #d8b4fe;
-            z-index: 0;
-        }
-
-        .header h1 {
-            font-size: 2.8em;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-            animation: typing 2s steps(20) forwards, cursorBlink 0.5s step-end infinite alternate;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 3px solid #d8b4fe;
-        }
-
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        @keyframes cursorBlink {
-            50% { border-color: transparent; }
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-        }
-
-        .content {
-            padding: 40px;
-            text-align: center;
-        }
-
-        .content p {
-            font-size: 1.2em;
-            color: #d4d4d8;
-            line-height: 1.7;
-            margin-bottom: 30px;
-            text-align: left;
-        }
-
-        .exams-list {
-            display: grid;
-            gap: 15px;
-        }
-
-        .exam-card {
-            display: flex;
-            align-items: center;
-            padding: 20px;
-            border: 2px solid rgba(168, 85, 247, 0.3);
-            border-radius: 12px;
-            background: rgba(30, 10, 65, 0.8); /* Dark purple */
-            color: #e2e8f0;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .exam-card:hover {
-            border-color: #d8b4fe;
-            background: rgba(30, 10, 65, 1);
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
-        }
-
-        .exam-card::before {
+        body::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.2)"/></svg>') repeat;
+            opacity: 0.1;
+            animation: networkFlow 20s linear infinite;
         }
 
-        .exam-card:hover::before {
-            opacity: 1;
+        @keyframes networkFlow {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
         }
 
-        .exam-icon {
-            font-size: 1.8em;
-            margin-right: 15px;
-            color: #d8b4fe;
-            animation: iconPulse 2s ease-in-out infinite;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        @keyframes iconPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(45deg, #3B82F6, #34D399);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .exam-info h3 {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #ffffff;
-        }
-
-        .exam-info p {
-            font-size: 0.95em;
-            color: #d4d4d8;
-            margin-top: 5px;
-            text-align: left;
-        }
-
-        .progress-container {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 5px;
-            margin: 20px 0;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: linear-gradient(45deg, #7e22ce, #d8b4fe);
-            border-radius: 5px;
-            width: 33.33%; /* 1/3 exams completed */
-            transition: width 0.5s ease;
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
-        }
-
-        .tooltip {
-            visibility: hidden;
-            background: #2e1065;
-            color: #ffffff;
-            padding: 8px 12px;
-            border-radius: 6px;
+        .header::before {
+            content: '';
             position: absolute;
-            z-index: 10;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            font-size: 0.9em;
-            white-space: nowrap;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0.2;
+            animation: pulse 5s ease-in-out infinite;
         }
 
-        .exam-card:hover .tooltip {
-            visibility: visible;
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #E5E7EB;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .quiz-card {
+            background: rgba(31, 41, 55, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border-color: #60A5FA;
+        }
+
+        .quiz-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><line x1="0" y1="10" x2="20" y2="10" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><line x1="10" y1="0" x2="10" y2="20" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>') repeat;
+            opacity: 0.2;
+        }
+
+        .quiz-card h2 {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #F3F4F6;
+        }
+
+        .quiz-card p {
+            font-size: 1em;
+            color: #9CA3AF;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .quiz-card a {
+            display: inline-block;
+            background: linear-gradient(45deg, #3B82F6, #34D399);
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-card a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+            background: linear-gradient(45deg, #2563EB, #10B981);
+        }
+
+        .quiz-card a::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s linear infinite;
+            opacity: 0;
+        }
+
+        .quiz-card a:hover::after {
             opacity: 1;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
             .container {
-                margin: 10px;
-                border-radius: 15px;
+                padding: 10px;
             }
 
             .header {
-                padding: 30px;
+                padding: 20px;
+                border-radius: 15px;
             }
 
             .header h1 {
                 font-size: 2em;
             }
 
-            .content {
+            .header p {
+                font-size: 1em;
+            }
+
+            .quiz-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 10px;
+            }
+
+            .quiz-card {
                 padding: 20px;
             }
 
-            .content p {
-                font-size: 1.1em;
-            }
-
-            .exam-card {
-                padding: 15px;
-            }
-
-            .exam-icon {
+            .quiz-card h2 {
                 font-size: 1.5em;
             }
 
-            .exam-info h3 {
-                font-size: 1.1em;
+            .quiz-card p {
+                font-size: 0.9em;
             }
 
-            .exam-info p {
-                font-size: 0.9em;
+            .quiz-card a {
+                padding: 10px 25px;
+                font-size: 1em;
             }
         }
 
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 1.6em;
+                font-size: 1.5em;
             }
 
-            .content {
-                padding: 15px;
+            .header p {
+                font-size: 0.85em;
             }
 
-            .exam-card {
-                flex-direction: column;
-                align-items: flex-start;
+            .quiz-card h2 {
+                font-size: 1.3em;
             }
 
-            .exam-icon {
-                margin-bottom: 10px;
+            .quiz-card p {
+                font-size: 0.85em;
             }
-        }
 
-        body.light-theme {
-            background: linear-gradient(135deg, #f5f5f5 0%, #e9d5ff 100%);
-        }
-
-        body.light-theme .container {
-            background: rgba(255, 255, 255, 0.95);
-            border-color: rgba(107, 33, 168, 0.2);
-        }
-
-        body.light-theme .header {
-            background: linear-gradient(45deg, #7e22ce, #c084fc);
-        }
-
-        body.light-theme .content p,
-        body.light-theme .exam-info p {
-            color: #4b5563;
-        }
-
-        body.light-theme .exam-card {
-            background: rgba(243, 232, 255, 0.8);
-            border-color: rgba(107, 33, 168, 0.3);
-            color: #1f2937;
-        }
-
-        body.light-theme .exam-card:hover {
-            background: rgba(243, 232, 255, 1);
-            border-color: #a855f7;
-        }
-
-        body.light-theme .exam-info h3 {
-            color: #1f2937;
-        }
-
-        body.light-theme .progress-bar {
-            background: linear-gradient(45deg, #a855f7, #d8b4fe);
-        }
-
-        body.light-theme .tooltip {
-            background: #7e22ce;
-            color: #ffffff;
+            .quiz-card a {
+                padding: 8px 20px;
+                font-size: 0.9em;
+            }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <canvas id="particles"></canvas>
     <div class="container">
         <div class="header">
-            <h1>Web Programlama 💻</h1>
-            <button class="theme-toggle" onclick="toggleTheme()">
-                <span id="themeIcon">🌙</span>
-            </button>
+            <h1>Welcome to Your Quiz Hub 🌟</h1>
+            <p>Explore our collection of engaging quizzes designed to test your knowledge in programming and computer science. Choose a quiz below and start your challenge!</p>
         </div>
-        <div class="content">
-            <p>
-                Web Programlama dersine hoş geldiniz! Bu platform, HTML, CSS, JavaScript ve backend teknolojileri gibi web geliştirme konularında bilgi edinmenizi sağlayacak interaktif sınavlar sunar. Aşağıdaki sınavlarla becerilerinizi test edebilir, modern web geliştirme dünyasında kendinizi geliştirebilirsiniz.
-            </p>
-            <div class="progress-container">
-                <div class="progress-bar"></div>
+
+        <div class="quiz-grid">
+            <div class="quiz-card">
+                <h2>Web Programlama Final Sorulari</h2>
+                <p>Test your understanding of core programming concepts, computer architecture, and logical reasoning.</p>
+                <a href="web.html">Start Quiz</a>
             </div>
-            <div class="exams-list">
-                <a href="web.html" class="exam-card">
-                    <span class="exam-icon">📝</span>
-                    <div class="exam-info">
-                        <h3>Final Sınavı</h3>
-                    </div>
-                    <span class="tooltip">Ağ protokolleri ve yapılandırma bilgisi testi</span>
-                </a>
-                
+            <div class="quiz-card">
+                <h2>Meslek İnglizce - Hafta 11</h2>
+                <p>Challenge yourself with questions on data structures, algorithms, and software engineering principles.</p>
+                <a href="ing1.html">Start Quiz</a>
+            </div>
+              <div class="quiz-card">
+                <h2>Meslek İnglizce - Hafta 12,13,14</h2>
+                <p>Test your understanding of core programming concepts, computer architecture, and logical reasoning.</p>
+                <a href="ing2.html">Start Quiz</a>
             </div>
         </div>
     </div>
-
-    <script>
-        // Particles.js for coding-inspired background
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const particlesArray = [];
-        const numberOfParticles = 50;
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = Math.random() * 1 - 0.5;
-                this.speedY = Math.random() * 1 - 0.5;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.size > 0.2) this.size -= 0.01;
-                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(168, 85, 247, 0.8)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            for (let i = 0; i < numberOfParticles; i++) {
-                particlesArray.push(new Particle());
-            }
-        }
-
-        function handleParticles() {
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
-                for (let j = i; j < particlesArray.length; j++) {
-                    const dx = particlesArray[i].x - particlesArray[j].x;
-                    const dy = particlesArray[i].y - particlesArray[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 100) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(168, 85, 247, ${1 - distance / 100})`;
-                        ctx.lineWidth = 1;
-                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
-                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-                        ctx.stroke();
-                    }
-                }
-                if (particlesArray[i].size <= 0.2) {
-                    particlesArray.splice(i, 1);
-                    i--;
-                    particlesArray.push(new Particle());
-                }
-            }
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            handleParticles();
-            requestAnimationFrame(animateParticles);
-        }
-
-        initParticles();
-        animateParticles();
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        // Theme toggle
-        function toggleTheme() {
-            document.body.classList.toggle('light-theme');
-            const themeIcon = document.getElementById('themeIcon');
-            themeIcon.textContent = document.body.classList.contains('light-theme') ? '🌞' : '🌙';
-        }
-    </script>
 </body>
 </html>
