@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary and Machine Learning Basics Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #F3F4F6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.2)"/></svg>') repeat;
+            opacity: 0.1;
+            animation: networkFlow 20s linear infinite;
+        }
+
+        @keyframes networkFlow {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 40px; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header {
+            background: linear-gradient(45deg, #1E40AF, #34D399);
+            color: #ffffff;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0.2;
+            animation: pulse 5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+            position: relative;
+            font-weight: 700;
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 5px;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: linear-gradient(45deg, #34D399, #10B981);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+            width: 0%;
+            box-shadow: 0 0 15px rgba(52, 211, 153, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .quiz-container {
+            padding: 40px;
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+
+        .question-card {
+            background: rgba(30, 41, 59, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            border-color: #10B981;
+        }
+
+        .question-number {
+            background: linear-gradient(45deg, #1E40AF, #34D399);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #F3F4F6;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(51, 65, 85, 0.7);
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover, .option:active {
+            border-color: #10B981;
+            background: rgba(51, 65, 85, 0.9);
+            transform: translateX(-5px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><line x1="0" y1="10" x2="20" y2="10" stroke="rgba(255,255,255,0.1)" stroke-width="1"/><line x1="10" y1="0" x2="10" y2="20" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>') repeat;
+            opacity: 0.2;
+        }
+
+        .option.selected {
+            border-color: #10B981;
+            background: rgba(71, 85, 105, 0.9);
+        }
+
+        .option.correct {
+            background: linear-gradient(45deg, #10B981, #34D399);
+            color: white;
+            border-color: #10B981;
+            animation: correctPulse 0.6s ease;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.6);
+        }
+
+        .option.incorrect {
+            background: linear-gradient(45deg, #F87171, #EF4444);
+            color: white;
+            border-color: #F87171;
+            animation: incorrectShake 0.6s ease;
+            box-shadow: 0 0 15px rgba(248, 113, 113, 0.6);
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        @keyframes correctPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+
+        .option-label {
+            font-weight: bold;
+            margin-right: 10px;
+            min-width: 30px;
+            color: #F3F4F6;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 10px;
+        }
+
+        .next-btn, .prev-btn {
+            background: linear-gradient(45deg, #1E40AF, #34D399);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 211, 153, 0.4);
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .next-btn:hover, .prev-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 211, 153, 0.6);
+            background: linear-gradient(45deg, #1E3A8A, #10B981);
+        }
+
+        .next-btn::after, .prev-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s linear infinite;
+            opacity: 0;
+        }
+
+        .next-btn:hover::after, .prev-btn:hover::after {
+            opacity: 1;
+        }
+
+        .next-btn:disabled, .prev-btn:disabled {
+            background: #4B5563;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            opacity: 0.7;
+        }
+
+        .results {
+            text-align: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            font-weight: bold;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: rotateIn 1s ease-out;
+        }
+
+        @keyframes rotateIn {
+            from { transform: rotate(-10deg); opacity: 0; }
+            to { transform: rotate(0); opacity: 1; }
+        }
+
+        .score-circle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0.3;
+            animation: pulse 5s ease-in-out infinite;
+        }
+
+        .score-excellent {
+            background: linear-gradient(45deg, #10B981, #34D399);
+        }
+
+        .score-good {
+            background: linear-gradient(45deg, #3B82F6, #1E40AF);
+        }
+
+        .score-average {
+            background: linear-gradient(45deg, #FBBF24, #F59E0B);
+        }
+
+        .score-poor {
+            background: linear-gradient(45deg, #F87171, #EF4444);
+        }
+
+        .results h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #F3F4F6;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .results-details {
+            font-size: 1.3em;
+            color: #9CA3AF;
+            margin-bottom: 30px;
+        }
+
+        .restart-btn {
+            background: linear-gradient(45deg, #1E40AF, #34D399);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 211, 153, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 211, 153, 0.6);
+            background: linear-gradient(45deg, #1E3A8A, #10B981);
+        }
+
+        .restart-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s linear infinite;
+            opacity: 0;
+        }
+
+        .restart-btn:hover::after {
+            opacity: 1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .quiz-container {
+                padding: 20px;
+                max-height: calc(100vh - 150px);
+            }
+
+            .question-card {
+                padding: 20px;
+                margin-bottom: 15px;
+            }
+
+            .question-number {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9em;
+            }
+
+            .question-text {
+                font-size: 1.1em;
+                margin-bottom: 15px;
+            }
+
+            .option {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+
+            .button-container {
+                flex-direction: row;
+                gap: 8px;
+            }
+
+            .next-btn, .prev-btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+
+            .score-circle {
+                width: 140px;
+                height: 140px;
+                font-size: 2.2em;
+            }
+
+            .results {
+                padding: 20px;
+            }
+
+            .results h2 {
+                font-size: 1.8em;
+            }
+
+            .results-details {
+                font-size: 1em;
+            }
+
+            .restart-btn {
+                padding: 10px 30px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .quiz-container {
+                padding: 15px;
+                max-height: calc(100vh - 120px);
+            }
+
+            .question-text {
+                font-size: 0.9em;
+            }
+
+            .option {
+                font-size: 0.85em;
+                padding: 8px 12px;
+            }
+
+            .next-btn, .prev-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+
+            .score-circle {
+                width: 120px;
+                height: 120px;
+                font-size: 2em;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Vocabulary and Machine Learning Basics Quiz 🌐</h1>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div id="quizContainer" class="quiz-container">
+            <div class="question-card">
+                <div class="question-number" id="questionNumber">1</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+                <div class="button-container">
+                    <button class="prev-btn" id="prevBtn" onclick="prevQuestion()" disabled>Previous Question</button>
+                    <button class="next-btn" id="nextBtn" onclick="nextQuestion()" disabled>Next Question</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultsContainer" class="results hidden">
+            <div class="score-circle" id="scoreCircle">
+                <span id="scorePercentage"></span>
+            </div>
+            <h2 id="resultTitle"></h2>
+            <div class="results-details" id="resultDetails"></div>
+            <button class="restart-btn" onclick="restartQuiz()">Restart Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is a synonym for circumvent?",
+                options: ["expect", "repetitive", "bypass", "relevant", "suppose"],
+                correct: 2
+            },
+            {
+                question: "What is a synonym for inference?",
+                options: ["judgment", "define", "changing", "long search", "characteristic"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for assume?",
+                options: ["suppose", "expect", "bypass", "repetitive", "work out"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for discriminating?",
+                options: ["making a distinction", "repetitive", "relevant", "fixed", "long search"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for anticipate?",
+                options: ["expect", "suppose", "define", "work out", "find way through"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for derive?",
+                options: ["develop from", "expect", "repetitive", "suppose", "bypass"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for determine?",
+                options: ["work out, conclude", "expect", "fixed", "define", "relevant"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for prevalent?",
+                options: ["widespread", "repetitive", "relevant", "suppose", "changing"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for fixed?",
+                options: ["not variable", "suppose", "relevant", "expect", "work out"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for attribute?",
+                options: ["characteristic", "suppose", "relevant", "changing", "judgment"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for pertinent?",
+                options: ["relevant", "suppose", "expect", "fixed", "changing"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for navigate?",
+                options: ["find way through", "suppose", "expect", "fixed", "changing"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for iterative?",
+                options: ["repetitive", "suppose", "expect", "changing", "fixed"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for varying?",
+                options: ["changing", "suppose", "expect", "fixed", "repetitive"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for quest?",
+                options: ["long search", "suppose", "expect", "changing", "relevant"],
+                correct: 0
+            },
+            {
+                question: "What is a synonym for deduce?",
+                options: ["work out, conclude", "suppose", "expect", "fixed", "changing"],
+                correct: 0
+            },
+            {
+                question: "Training set",
+                options: ["A machine learning method based on learning data representations instead of task-specific algorithms.", "A set of observations used to generate machine learning models.", "Training a model to maximize a reward via iterative trial and error.", "Training a model by using labeled datasets and specified input-output pairs."],
+                correct: 1
+            },
+            {
+                question: "Model",
+                options: ["The task of grouping entities sharing common traits.", "Training a model by using labeled datasets.", "A specific representation of a dataset after a certain algorithm has been trained on that dataset.", "Predicting a categorical output."],
+                correct: 2
+            },
+            {
+                question: "Feature selection",
+                options: ["The process of deciding which subset of relevant features will be used in the construction of a model.", "A circuit of neurons.", "The process of deciding which subset of relevant features will be used in the construction of a model.", "Predicting an output of continuous values."],
+                correct: 0
+            },
+            {
+                question: "Supervised learning",
+                options: ["Training a model by using labeled datasets and specified input-output pairs.", "A machine learning method based on learning data representations.", "The task of grouping entities.", "Training a model by using labeled datasets and specified input-output pairs."],
+                correct: 0
+            },
+            {
+                question: "Classification",
+                options: ["Predicting an output of continuous values.", "Predicting a categorical output.", "Grouping entities with common traits.", "Predicting a categorical output."],
+                correct: 1
+            },
+            {
+                question: "Regression",
+                options: ["Predicting a categorical output.", "A circuit of neurons.", "Predicting an output of continuous values.", "Training a model to maximize reward."],
+                correct: 2
+            },
+            {
+                question: "Semi-supervised learning",
+                options: ["A class of ML tasks that combine a small amount of labeled data with a large amount of unlabeled data.", "A set of observations used to generate models.", "Training a model by using labeled datasets.", "A class of ML tasks that combine a small amount of labeled data with a large amount of unlabeled data."],
+                correct: 0
+            },
+            {
+                question: "Unsupervised learning",
+                options: ["The task of grouping entities.", "Training a model by using labeled datasets.", "The analysis identifies commonalities in the data and reacts accordingly.", "The analysis identifies commonalities in the data and reacts based on the presence or absence of such commonalities in each new piece of data."],
+                correct: 3
+            },
+            {
+                question: "Clustering",
+                options: ["The task of grouping entities sharing more common traits with each other than others.", "Training a model by maximizing a reward.", "A machine learning method based on data representation.", "The task of grouping entities in such a way that entities found in the same group share more common traits to each other than to those from other groups."],
+                correct: 3
+            },
+            {
+                question: "Neural network",
+                options: ["Training a model by using labeled datasets.", "A circuit of neurons.", "Predicting a categorical output.", "A circuit of neurons."],
+                correct: 1
+            },
+            {
+                question: "Deep learning",
+                options: ["A class of ML tasks combining labeled and unlabeled data.", "Predicting continuous values.", "A machine learning method based on learning data representations instead of task-specific algorithms.", "Training a model by maximizing a reward."],
+                correct: 2
+            },
+            {
+                question: "Reinforcement learning",
+                options: ["Training a model by using labeled datasets.", "Training a model to maximize a reward via iterative trial and error.", "The process of selecting features.", "Training a model to maximize a reward via iterative trial and error."],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedAnswer = null;
+        let answered = false;
+        let answers = Array(questions.length).fill(null);
+        let shuffledOrders = Array(questions.length).fill(null);
+
+        function shuffleOptions(options, correctIndex) {
+            const indexedOptions = options.map((option, index) => ({ option, index }));
+            for (let i = indexedOptions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [indexedOptions[i], indexedOptions[j]] = [indexedOptions[j], indexedOptions[i]];
+            }
+            const newCorrectIndex = indexedOptions.findIndex(item => item.index === correctIndex);
+            return {
+                shuffledOptions: indexedOptions.map(item => item.option),
+                newCorrectIndex
+            };
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            let shuffledOptions, newCorrectIndex;
+
+            if (shuffledOrders[currentQuestion] === null) {
+                const shuffleResult = shuffleOptions(question.options, question.correct);
+                shuffledOptions = shuffleResult.shuffledOptions;
+                newCorrectIndex = shuffleResult.newCorrectIndex;
+                shuffledOrders[currentQuestion] = { shuffledOptions, newCorrectIndex };
+            } else {
+                shuffledOptions = shuffledOrders[currentQuestion].shuffledOptions;
+                newCorrectIndex = shuffledOrders[currentQuestion].newCorrectIndex;
+            }
+
+            document.getElementById('questionNumber').textContent = currentQuestion + 1;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            shuffledOptions.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                if (answers[currentQuestion] !== null) {
+                    optionDiv.classList.add('disabled');
+                    if (index === newCorrectIndex) {
+                        optionDiv.classList.add('correct');
+                    } else if (index === answers[currentQuestion] && index !== newCorrectIndex) {
+                        optionDiv.classList.add('incorrect');
+                    }
+                } else {
+                    optionDiv.onclick = () => selectAnswer(index, newCorrectIndex);
+                }
+                if (index === answers[currentQuestion]) {
+                    optionDiv.classList.add('selected');
+                }
+                optionDiv.innerHTML = `
+                    <span class="option-label">${String.fromCharCode(65 + index)}</span>
+                    <span>${option}</span>
+                `;
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            updateProgressBar();
+            document.getElementById('nextBtn').disabled = answers[currentQuestion] === null;
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+        }
+
+        function selectAnswer(index, correctIndex) {
+            if (answered || answers[currentQuestion] !== null) return;
+            
+            selectedAnswer = index;
+            answers[currentQuestion] = index;
+            const options = document.querySelectorAll('.option');
+            
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[index].classList.add('selected');
+            
+            setTimeout(() => {
+                answered = true;
+                
+                options.forEach((opt, i) => {
+                    opt.classList.add('disabled');
+                    if (i === correctIndex) {
+                        opt.classList.add('correct');
+                    } else if (i === selectedAnswer && i !== correctIndex) {
+                        opt.classList.add('incorrect');
+                    }
+                });
+                
+                if (selectedAnswer === correctIndex) {
+                    score++;
+                }
+                
+                document.getElementById('nextBtn').disabled = false;
+            }, 600);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                answered = false;
+                displayQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                answered = answers[currentQuestion] !== null;
+                displayQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = Math.round(((currentQuestion + 1) / questions.length) * 100);
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showResults() {
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            const scoreCircle = document.getElementById('scoreCircle');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultDetails = document.getElementById('resultDetails');
+            
+            document.getElementById('scorePercentage').textContent = percentage + '%';
+            resultDetails.textContent = `You answered ${score} out of ${questions.length} questions correctly`;
+            
+            if (percentage >= 90) {
+                scoreCircle.className = 'score-circle score-excellent';
+                resultTitle.textContent = 'Excellent! 🎉';
+            } else if (percentage >= 70) {
+                scoreCircle.className = 'score-circle score-good';
+                resultTitle.textContent = 'Very Good!';
+            } else if (percentage >= 40) {
+                scoreCircle.className = 'score-circle score-average';
+                resultTitle.textContent = 'Not Bad!';
+            } else {
+                scoreCircle.className = 'score-circle score-poor';
+                resultTitle.textContent = 'Needs Improvement!';
+            }
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answers = Array(questions.length).fill(null);
+            shuffledOrders = Array(questions.length).fill(null);
+            document.getElementById('resultsContainer').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+            answered = false;
+            displayQuestion();
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>
